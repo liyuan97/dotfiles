@@ -1,0 +1,49 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+      force: true
+
+- clean: ['~']
+
+- link:
+    ~/.zshrc: zshrc
+
+- shell:
+    - [git submodule update --init --recursive, 安装子模块]
+    - 
+      command: |
+        if [ ! -d "$HOME/.oh-my-zsh" ]; then
+          echo "安装 oh-my-zsh..."
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        else
+          echo "oh-my-zsh 已经安装"
+        fi
+      description: 安装 oh-my-zsh
+    - 
+      command: |
+        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+          echo "安装 powerlevel10k 主题..."
+          git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+        else
+          echo "powerlevel10k 主题已安装"
+        fi
+      description: 安装 powerlevel10k 主题
+    - 
+      command: |
+        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+          echo "安装 zsh-autosuggestions 插件..."
+          git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        else
+          echo "zsh-autosuggestions 插件已安装"
+        fi
+      description: 安装 zsh-autosuggestions 插件
+    - 
+      command: |
+        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+          echo "安装 zsh-syntax-highlighting 插件..."
+          git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+        else
+          echo "zsh-syntax-highlighting 插件已安装"
+        fi
+      description: 安装 zsh-syntax-highlighting 插件 
